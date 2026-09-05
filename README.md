@@ -50,24 +50,6 @@ Formal closure of the K4 module and transition to K5‑Pre‑Genesis.
 
 ---
 
-## 📂 Repository Structure
-
-VK365-KRYPTOS-K4-CANONICAL-MODULE/
-│
-├── README.md
-├── LICENSE
-│
-├── k4_canonical.json
-├── k4_profile.asn1
-│
-├── vk365_quantum_marker.json
-├── opkop_trivium_audit_certificate.json
-├── k4_sovereign_closure_statement.json
-│
-├── coordinates_canonical.json
-├── coordinates_labyrinth.json
-│
-└── .gitignore
 ## 🔍 Kryptos Context
 
 ### Verified crib words (publicly confirmed):
