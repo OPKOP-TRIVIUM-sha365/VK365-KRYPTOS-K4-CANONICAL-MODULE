@@ -1,1 +1,42 @@
-(insert EXACT content you already have)
+{
+  "labyrinth_coordinates": {
+    "symbol": "₪",
+    "deg_transpositions": {
+      "A_deg": 486.508,
+      "B_deg": 370.654,
+      "delta_AB_deg": 115.854
+    },
+    "expressions": [
+      {
+        "expr": "115.854°E / 52.486.508°N / 13.370654°E",
+        "value": "4.488e-10",
+        "unit": "°·₪"
+      },
+      {
+        "expr": "370.654°E / 52.486.508°N / 13.370654°E",
+        "value": "1.44e-9",
+        "unit": "°·₪"
+      },
+      {
+        "expr": "370.654°E / 52.486.508°N / 13.370654°E × 486.508°W",
+        "value": {
+          "meters_per_second": 0.000698,
+          "miles_per_hour": 0.00156,
+          "kilometers_per_hour": 0.00251
+        },
+        "unit": "speed·₪"
+      },
+      {
+        "expr": "486.508° × 370.654° / 52.486.508°N / 13.370654°E",
+        "value": 0.0,
+        "unit": "₪"
+      },
+      {
+        "expr": "486.508° / 52.486.508°N, 13.370654°E / 370.654°",
+        "value": 1.000000122,
+        "unit": "dimensionless·₪"
+      }
+    ],
+    "note": "Labyrinth expressions are VK-365/OPKOP-TRIVIUM sovereign constructs."
+  }
+}
