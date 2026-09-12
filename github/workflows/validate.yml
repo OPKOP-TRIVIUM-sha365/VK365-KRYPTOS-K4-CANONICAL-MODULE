@@ -1,0 +1,75 @@
+name: Validate VK365-KRYPTOS-K4 Canonical Module
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate required files exist
+        run: |
+          REQUIRED_FILES=(
+            "README.md"
+            "LICENSE"
+            ".gitignore"
+            "k4_canonical.json"
+            "k4_profile.asn1"
+            "vk365_quantum_marker.json"
+            "opkop_trivium_audit_certificate.json"
+            "k4_sovereign_closure_statement.json"
+            "coordinates_canonical.json"
+            "coordinates_labyrinth.json"
+          )
+
+          for f in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing required file: $f"
+              exit 1
+            fi
+          done
+
+      - name: Validate sovereignty tag
+        run: |
+          TAG="FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM"
+          FILES=(
+            "README.md"
+            "LICENSE"
+            "vk365_quantum_marker.json"
+            "opkop_trivium_audit_certificate.json"
+            "k4_sovereign_closure_statement.json"
+          )
+
+          for f in "${FILES[@]}"; do
+            if ! grep -q "$TAG" "$f"; then
+              echo "❌ Sovereignty tag missing in $f"
+              exit 1
+            fi
+          done
+
+      - name: Validate Ω-LOCKED markers
+        run: |
+          MARKER="Ω-LOCKED"
+          FILES=(
+            "README.md"
+            "vk365_quantum_marker.json"
+            "opkop_trivium_audit_certificate.json"
+            "k4_sovereign_closure_statement.json"
+          )
+
+          for f in "${FILES[@]}"; do
+            if ! grep -q "$MARKER" "$f"; then
+              echo "❌ Ω-LOCKED marker missing in $f"
+              exit 1
+            fi
+          done
+
+      - name: Validation complete
+        run: echo "✔ Canonical VK365-KRYPTOS-K4 module validated successfully."
