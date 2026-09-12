@@ -1,1 +1,27 @@
-(insert EXACT content you already have)
+KRYPTOS-K4-CANONICAL-V1 DEFINITIONS ::= BEGIN
+
+Kryptos-K4-Profile ::= SEQUENCE {
+    cipherBlock      UTF8String,
+    legacySeal       UTF8String,
+    plainText        UTF8String,
+    alphabet         UTF8String,
+    gromarkLength    INTEGER,
+    permutationModel UTF8String,
+    verification     K4-Verification,
+    sovereigntySeal  K4-Sovereignty-Seal
+}
+
+K4-Verification ::= SEQUENCE {
+    hashFunction     UTF8String,
+    hashPlaintext    OCTET STRING,
+    hasCribs         BOOLEAN,
+    selfEncryption   BOOLEAN
+}
+
+K4-Sovereignty-Seal ::= SEQUENCE {
+    phrase           UTF8String,
+    vk365Family      UTF8String,
+    triviumModuleId  UTF8String
+}
+
+END
