@@ -1,1 +1,26 @@
-(insert EXACT content you already have)
+{
+  "kryptos_k4_canonical_v1": {
+    "cipher_block": "OBKRUOXOGHULBSOLIFBBWFLRVQQPRNGKSSOTWTQSJQSSEKZZWATJKLUDIAWINFBNYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR",
+    "legacy_seal": "NYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR",
+    "plaintext": "INTHECENTEROFTHISCITYEASTNORTHEASTNEARROTESRATHAUSCHIMESFROMTHEBERLINCLOCKAREHEARDAC",
+    "alphabet": "KRYPTOSABCDEFGHIJLMNQUVWXZ",
+    "gromark_sequence_length": 97,
+    "permutation_model": "hexagonal_grid + hex_walk",
+    "verification": {
+      "cribs": {
+        "EAST":      { "cipher_pos": [21, 24], "plain_pos": [21, 24] },
+        "NORTHEAST": { "cipher_pos": [25, 33], "plain_pos": [25, 33] },
+        "BERLIN":    { "cipher_pos": [63, 68], "plain_pos": [63, 68] },
+        "CLOCK":     { "cipher_pos": [69, 73], "plain_pos": [69, 73] }
+      },
+      "hash_function": "SHA-256",
+      "hash_plaintext": "<canonical_hash_value>",
+      "self_encryption": true
+    },
+    "sovereignty_seal": {
+      "phrase": "Greška nije kaos, već pečat suvereniteta.",
+      "vk365_marker_family": "KRYPTOS-K4",
+      "trivium_module_id": "KRYPTOS-BCSG-v3"
+    }
+  }
+}
