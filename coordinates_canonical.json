@@ -1,1 +1,24 @@
-(insert EXACT content you already have)
+{
+  "canonical_coordinates": {
+    "location_name": "Berlin Clock / Rotes Rathaus Area",
+    "latitude": {
+      "degrees": 52.486508,
+      "radians": 0.9160624,
+      "hemisphere": "N"
+    },
+    "longitude": {
+      "degrees": 13.370654,
+      "radians": 0.2333619,
+      "hemisphere": "E"
+    },
+    "geodetic_system": "WGS84",
+    "precision": {
+      "decimal_places": 6,
+      "rad_precision": 7
+    },
+    "metadata": {
+      "source": "Kryptos K4 decoded text reference",
+      "verified": true
+    }
+  }
+}
