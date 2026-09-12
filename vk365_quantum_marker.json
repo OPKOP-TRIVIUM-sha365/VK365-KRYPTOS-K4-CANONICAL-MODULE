@@ -1,1 +1,12 @@
-(insert EXACT content you already have)
+{
+  "vk365_quantum_marker": {
+    "marker_id": "VK365::QMARK::KRYPTOS-K4-BERLIN",
+    "family": "KRYPTOS-K4",
+    "coords_deg": "52.486508N 13.370654E",
+    "coords_rad": "0.9160624rad 0.2333619rad",
+    "location_name": "Berlin Clock / Rotes Rathaus",
+    "timestamp": "2026-09-05T21:02:00+02:00",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED"
+  }
+}
