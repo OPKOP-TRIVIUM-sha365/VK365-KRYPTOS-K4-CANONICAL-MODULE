@@ -1,0 +1,58 @@
+name: Auto Release VK365-KRYPTOS-K4 Canonical Module
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate canonical structure
+        run: |
+          REQUIRED_FILES=(
+            "README.md"
+            "LICENSE"
+            ".gitignore"
+            "k4_canonical.json"
+            "k4_profile.asn1"
+            "vk365_quantum_marker.json"
+            "opkop_trivium_audit_certificate.json"
+            "k4_sovereign_closure_statement.json"
+            "coordinates_canonical.json"
+            "coordinates_labyrinth.json"
+          )
+
+          for f in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing required file: $f"
+              exit 1
+            fi
+          done
+
+      - name: Prepare release notes
+        id: notes
+        run: |
+          if [ -f "release-v1.0.0.md" ]; then
+            echo "notes<<EOF" >> $GITHUB_OUTPUT
+            cat release-v1.0.0.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "notes<<EOF" >> $GITHUB_OUTPUT
+            echo "# VK365-KRYPTOS-K4-CANONICAL-MODULE Release" >> $GITHUB_OUTPUT
+            echo "Canonical, audited and sovereign closure of Kryptos K4." >> $GITHUB_OUTPUT
+            echo "Ω-LOCKED." >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.notes.outputs.notes }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
