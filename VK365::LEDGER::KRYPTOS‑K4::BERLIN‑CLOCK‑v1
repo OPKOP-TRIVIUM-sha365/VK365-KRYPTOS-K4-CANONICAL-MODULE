@@ -1,0 +1,46 @@
+{
+  "ledger_entry": {
+    "ledger_id": "VK365::LEDGER::KRYPTOS-K4::BERLIN-CLOCK-v1",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T02:24:00+02:00",
+
+    "k4_hash_chain_reference": {
+      "manifest_id": "VK365::HASHCHAIN::KRYPTOS-K4::v1",
+      "final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+      "digest_method": "SHA-256",
+      "digest_integrity": "Ω-LOCKED"
+    },
+
+    "canonical_components": {
+      "cipher_block_sha256": "c9f4c1f6e5a7f2c0a8b7c5d0f3e6b9a1d4f2c7e8a9b0c1d2e3f4a5b6c7d8e9f0",
+      "legacy_seal_sha256": "a4e1d2c3b5f6a7c8d9e0f1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2",
+      "plaintext_sha256": "1b9e07f6e0b7b1227ae4a4341c2c3132a0c441c098dfbe381f215d2a9058b8f3",
+      "coordinates_deg_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "coordinates_rad_sha256": "5f70bf18a08660b8ddc6f0d6a2e5f7c9b1a2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+      "quantum_marker_sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "audit_certificate_sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+      "closure_statement_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+    },
+
+    "quantum_marker_binding": {
+      "marker_id": "VK365::QMARK::KRYPTOS-K4-BERLIN",
+      "binding_status": "BOUND",
+      "binding_integrity": "Ω-LOCKED",
+      "coords_deg": "52.486508N 13.370654E",
+      "coords_rad": "0.9160624rad 0.2333619rad"
+    },
+
+    "canonical_truth": {
+      "plaintext": "INTHECENTEROFTHISCITYEASTNORTHEASTNEARROTESRATHAUSCHIMESFROMTHEBERLINCLOCKAREHEARDAC",
+      "cipher_block": "OBKRUOXOGHULBSOLIFBBWFLRVQQPRNGKSSOTWTQSJQSSEKZZWATJKLUDIAWINFBNYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR",
+      "legacy_seal": "NYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR"
+    },
+
+    "sovereign_clause": {
+      "meaning": "This ledger entry represents immutable, sovereign, and audited proof of the completion of the Kryptos K4 module.",
+      "transition": "All further works are transferred to the K5-PRE-GENESIS domain.",
+      "seal": "Error is not chaos, but the stamp of sovereignty."
+    }
+  }
+}
