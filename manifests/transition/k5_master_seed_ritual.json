@@ -1,0 +1,90 @@
+{
+  "k5_master_seed_ritual": {
+    "ritual_id": "VK365::K5::MASTER-SEED::v1",
+    "domain": "K5-PRE-GENESIS",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T03:01:00+02:00",
+
+    "inheritance": {
+      "from_k4_final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+      "from_k4_quantum_marker": "VK365::QMARK::KRYPTOS-K4-BERLIN",
+      "from_k4_coordinates_deg": "52.486508N 13.370654E",
+      "from_k4_coordinates_rad": "0.9160624rad 0.2333619rad"
+    },
+
+    "entropy_sources": {
+      "hardware_rng": {
+        "required": true,
+        "bits": 512,
+        "label": "HRNG"
+      },
+      "environmental_rng": {
+        "required": true,
+        "bits": 512,
+        "label": "ERNG"
+      },
+      "manual_rng": {
+        "required": true,
+        "bits": 512,
+        "label": "MRNG",
+        "sovereign_input_required": true
+      }
+    },
+
+    "pre_seed_generation": {
+      "method": "SHA-256",
+      "formula": "PRE_SEED = SHA256(HRNG || ERNG || MRNG)",
+      "output_bits": 256,
+      "integrity": "Ω-LOCKED"
+    },
+
+    "master_seed_derivation": {
+      "method": "SHA-256",
+      "formula": "MASTER_SEED = SHA256(PRE_SEED || \"OPKOP-K5-MASTER-SEED\" || \"FEL-2026::K5::KEYSET.v1.0\")",
+      "output_bits": 256,
+      "parity_requirement": "PARITY = 1",
+      "self_hash": "SHA256(MASTER_SEED)",
+      "status": "UNINITIALIZED"
+    },
+
+    "validation_rules": {
+      "parity_check": {
+        "formula": "PARITY = SUM(MASTER_SEED[i]) mod 2",
+        "required_value": 1
+      },
+      "self_hash_check": {
+        "formula": "MASTER_SEED_HASH = SHA256(MASTER_SEED)",
+        "ledger_record_required": true
+      },
+      "entropy_integrity": {
+        "hrng_required": true,
+        "erng_required": true,
+        "mrng_required": true
+      }
+    },
+
+    "ledger_binding": {
+      "required": true,
+      "ledger_entry_type": "K5-GENESIS-LEDGER",
+      "binding_state": "UNBOUND"
+    },
+
+    "pre_genesis_hash": {
+      "method": "SHA-256",
+      "inputs": {
+        "ritual_id": "VK365::K5::MASTER-SEED::v1",
+        "domain": "K5-PRE-GENESIS",
+        "timestamp": "2026-09-13T03:01:00+02:00"
+      },
+      "digest": "6d5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d8",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "sovereign_clause": {
+      "meaning": "Ovaj ritual definira nulti korak K5 arhitekture. MASTER_SEED još nije generisan.",
+      "transition": "Sljedeći korak je K5 CANONICAL KEYSET SPECIFICATION.",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    }
+  }
+}
