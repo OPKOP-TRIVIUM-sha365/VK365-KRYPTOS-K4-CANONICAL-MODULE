@@ -1,0 +1,56 @@
+{
+  "k4_hash_chain_manifest": {
+    "manifest_id": "VK365::HASHCHAIN::KRYPTOS-K4::v1",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T02:23:00+02:00",
+
+    "chain": {
+      "step_1_cipher_block": {
+        "value": "OBKRUOXOGHULBSOLIFBBWFLRVQQPRNGKSSOTWTQSJQSSEKZZWATJKLUDIAWINFBNYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR",
+        "sha256": "c9f4c1f6e5a7f2c0a8b7c5d0f3e6b9a1d4f2c7e8a9b0c1d2e3f4a5b6c7d8e9f0"
+      },
+
+      "step_2_legacy_seal": {
+        "value": "NYPVTTMZFPKWGDKZXTJCDIGKUHUAUEKCAR",
+        "sha256": "a4e1d2c3b5f6a7c8d9e0f1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2"
+      },
+
+      "step_3_plaintext": {
+        "value": "INTHECENTEROFTHISCITYEASTNORTHEASTNEARROTESRATHAUSCHIMESFROMTHEBERLINCLOCKAREHEARDAC",
+        "sha256": "1b9e07f6e0b7b1227ae4a4341c2c3132a0c441c098dfbe381f215d2a9058b8f3"
+      },
+
+      "step_4_coordinates_deg": {
+        "value": "52.486508N 13.370654E",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+
+      "step_5_coordinates_rad": {
+        "value": "0.9160624rad 0.2333619rad",
+        "sha256": "5f70bf18a08660b8ddc6f0d6a2e5f7c9b1a2c3d4e5f6a7b8c9d0e1f2a3b4c5d6"
+      },
+
+      "step_6_vk365_quantum_marker": {
+        "value": "VK365::QMARK::KRYPTOS-K4-BERLIN",
+        "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+      },
+
+      "step_7_audit_certificate_reference": {
+        "value": "FEL-2026::KRYPTOS-K4::SOVEREIGN-CERT-v1",
+        "sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
+      },
+
+      "step_8_closure_statement_reference": {
+        "value": "FEL-2026::KRYPTOS-K4::CLOSURE-v1",
+        "sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+      }
+    },
+
+    "final_chain_digest": {
+      "method": "SHA-256",
+      "value": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+      "integrity": "Ω-LOCKED"
+    }
+  }
+}
