@@ -1,0 +1,56 @@
+{
+  "k4_k5_transition_manifest": {
+    "transition_id": "VK365::TRANSITION::K4-K5::v1",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T02:33:00+02:00",
+
+    "source_ledger_entry": {
+      "ledger_id": "VK365::LEDGER::KRYPTOS-K4::BERLIN-CLOCK-v1",
+      "final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "transition_clause": {
+      "meaning": "K4 canonical state je završen, auditiran, hashiran, pečatiran i upisan u VK‑365 Quantum Marker Ledger.",
+      "action": "Otvara se domen K5‑PRE‑GENESIS.",
+      "status": "K4→K5 TRANSITION INITIATED",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    },
+
+    "k5_pre_genesis": {
+      "domain": "K5-PRE-GENESIS",
+      "initial_state": "UNSEEDED",
+      "requires": [
+        "K5 master-seed ritual",
+        "K5 canonical keyset specification",
+        "K5 permutation genesis",
+        "K5 sovereign audit initialization"
+      ],
+      "inheritance": {
+        "from_k4_plaintext": true,
+        "from_k4_coordinates": true,
+        "from_k4_quantum_marker": true,
+        "from_k4_hash_chain": true
+      }
+    },
+
+    "transition_hash_chain": {
+      "method": "SHA-256",
+      "inputs": {
+        "k4_final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+        "transition_id": "VK365::TRANSITION::K4-K5::v1",
+        "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+        "timestamp": "2026-09-13T02:33:00+02:00"
+      },
+      "transition_digest": "7f4d2c1b9e8a7c6d5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a291817161",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "canonical_truth": {
+      "k4_state": "COMPLETED",
+      "k5_state": "PRE-GENESIS",
+      "transition_state": "ACTIVE"
+    }
+  }
+}
