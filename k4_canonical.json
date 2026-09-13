@@ -14,7 +14,7 @@
         "CLOCK":     { "cipher_pos": [69, 73], "plain_pos": [69, 73] }
       },
       "hash_function": "SHA-256",
-      "hash_plaintext": "<canonical_hash_value>",
+      "hash_plaintext": "1b9e07f6e0b7b1227ae4a4341c2c3132a0c441c098dfbe381f215d2a9058b8f3",
       "self_encryption": true
     },
     "sovereignty_seal": {
