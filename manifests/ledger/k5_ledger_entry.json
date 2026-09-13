@@ -1,0 +1,75 @@
+{
+  "k5_ledger_entry": {
+    "ledger_id": "VK365::LEDGER::K5::GENESIS-v1",
+    "domain": "K5-GENESIS",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T03:22:00+02:00",
+
+    "k4_transition_reference": {
+      "transition_manifest_id": "VK365::TRANSITION::K4-K5::v1",
+      "k4_final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+      "status": "VERIFIED",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "master_seed_reference": {
+      "ritual_id": "VK365::K5::MASTER-SEED::v1",
+      "entropy_sources": ["HRNG", "ERNG", "MRNG"],
+      "parity_requirement": 1,
+      "status": "REQUIRED"
+    },
+
+    "keyset_reference": {
+      "keyset_id": "VK365::K5::KEYSET::v1",
+      "hash_chain_root": "5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d86",
+      "status": "VERIFIED"
+    },
+
+    "permutation_genesis_reference": {
+      "genesis_id": "VK365::K5::PERMUTATION-GENESIS::v1",
+      "genesis_hash": "4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d865b",
+      "status": "VERIFIED"
+    },
+
+    "k5_genesis_state": {
+      "state": "INITIALIZED",
+      "domain": "K5-GENESIS",
+      "allowed_operations": [
+        "K5_ENCRYPTION",
+        "K5_DECRYPTION",
+        "K5_CANONICAL_OUTPUT"
+      ],
+      "forbidden_operations": [
+        "MASTER_SEED_REGENERATION",
+        "KEYSET_REPLACEMENT",
+        "PERMUTATION_REGENESIS"
+      ]
+    },
+
+    "ledger_hash_chain": {
+      "method": "SHA-256",
+      "inputs": {
+        "ledger_id": "VK365::LEDGER::K5::GENESIS-v1",
+        "keyset_id": "VK365::K5::KEYSET::v1",
+        "permutation_genesis_id": "VK365::K5::PERMUTATION-GENESIS::v1",
+        "timestamp": "2026-09-13T03:22:00+02:00"
+      },
+      "digest": "392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d865b4a",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "canonical_truth": {
+      "k5_state": "GENESIS",
+      "k4_state": "COMPLETED",
+      "transition_state": "FINALIZED",
+      "marker_binding": "VK365::QMARK::KRYPTOS-K4-BERLIN"
+    },
+
+    "sovereign_clause": {
+      "meaning": "Ovaj ledger zapis predstavlja suvereni, canonical i nepromjenjivi dokaz da je K5 domen inicijalizovan.",
+      "transition": "Sljedeći korak je K5 FULL GENESIS MANIFEST.",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    }
+  }
+}
