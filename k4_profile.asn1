@@ -15,7 +15,16 @@ K4-Verification ::= SEQUENCE {
     hashFunction     UTF8String,
     hashPlaintext    OCTET STRING,
     hasCribs         BOOLEAN,
+    cribs            SEQUENCE OF K4-Crib OPTIONAL,
     selfEncryption   BOOLEAN
+}
+
+K4-Crib ::= SEQUENCE {
+    label        UTF8String,  -- npr. "EAST", "NORTHEAST", "BERLIN", "CLOCK"
+    cipherStart  INTEGER,     -- početna pozicija u cipher_block (1-based)
+    cipherEnd    INTEGER,     -- završna pozicija u cipher_block (1-based)
+    plainStart   INTEGER,     -- početna pozicija u plaintext (1-based)
+    plainEnd     INTEGER      -- završna pozicija u plaintext (1-based)
 }
 
 K4-Sovereignty-Seal ::= SEQUENCE {
