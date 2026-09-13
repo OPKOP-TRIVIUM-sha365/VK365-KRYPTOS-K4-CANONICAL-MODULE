@@ -1,0 +1,88 @@
+{
+  "k5_canonical_keyset_spec": {
+    "keyset_id": "VK365::K5::KEYSET::v1",
+    "domain": "K5-GENESIS",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T03:12:00+02:00",
+
+    "master_seed_reference": {
+      "ritual_id": "VK365::K5::MASTER-SEED::v1",
+      "status": "REQUIRED",
+      "parity_requirement": 1,
+      "entropy_sources": ["HRNG", "ERNG", "MRNG"]
+    },
+
+    "key_derivation_function": {
+      "method": "SHA-256",
+      "formula": "KDF(label, index) = SHA256(MASTER_SEED || label || index)",
+      "output_bits": 256,
+      "integrity": "Ω-LOCKED"
+    },
+
+    "key_spaces": {
+      "batac": {
+        "rot": "BATAC_ROT[i] = KDF(\"BATAC_ROT\", i) mod 26",
+        "xor": "BATAC_XOR[i] = KDF(\"BATAC_XOR\", i) mod 256",
+        "sbox": "BATAC_SBOX[j] = Permutation(KDF(\"BATAC_SBOX\", j))"
+      },
+      "ebata": {
+        "rot": "EBATA_ROT[i] = KDF(\"EBATA_ROT\", i) mod 26",
+        "xor": "EBATA_XOR[i] = KDF(\"EBATA_XOR\", i) mod 256",
+        "sbox": "EBATA_SBOX[j] = Permutation(KDF(\"EBATA_SBOX\", j))"
+      },
+      "crib": {
+        "rot": "CRIB_ROT[i] = KDF(\"CRIB_ROT\", i) mod 26",
+        "xor": "CRIB_XOR[i] = KDF(\"CRIB_XOR\", i) mod 256",
+        "sbox": "CRIB_SBOX[j] = Permutation(KDF(\"CRIB_SBOX\", j))",
+        "phoneme_map": {
+          "Y": "I",
+          "C": "K",
+          "F": "V",
+          "G": "K",
+          "S": "Z",
+          "T": "D",
+          "M": "N",
+          "Q": "K",
+          "PH": "F",
+          "OTHER": "IDENTITY"
+        }
+      },
+      "audit": {
+        "rot": "AUDIT_ROT[i] = KDF(\"AUDIT_ROT\", i) mod 26",
+        "xor": "AUDIT_XOR[i] = KDF(\"AUDIT_XOR\", i) mod 256",
+        "sbox": "AUDIT_SBOX[j] = Permutation(KDF(\"AUDIT_SBOX\", j))",
+        "salt": "AUDIT_SALT[i] = KDF(\"AUDIT_SALT\", i)"
+      }
+    },
+
+    "keyset_versioning": {
+      "version": 1,
+      "rotation_policy": "NEW MASTER_SEED → NEW KEYSET",
+      "status": "Ω-LOCKED"
+    },
+
+    "asn1_profile": {
+      "spec": "K5-Keyset DEFINITIONS ::= BEGIN ... END",
+      "status": "REQUIRED",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "hash_chain_root": {
+      "method": "SHA-256",
+      "inputs": {
+        "keyset_id": "VK365::K5::KEYSET::v1",
+        "master_seed_reference": "VK365::K5::MASTER-SEED::v1",
+        "timestamp": "2026-09-13T03:12:00+02:00"
+      },
+      "digest": "5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d86",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "sovereign_clause": {
+      "meaning": "Ovaj dokument definira canonical K5 keyset. MASTER_SEED mora biti generisan prije aktivacije keyseta.",
+      "transition": "Sljedeći korak je K5 PERMUTATION GENESIS.",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    }
+  }
+}
