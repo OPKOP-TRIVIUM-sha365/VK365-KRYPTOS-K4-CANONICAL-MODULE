@@ -1,0 +1,63 @@
+{
+  "k5_pre_genesis_module": {
+    "module_id": "VK365::K5::PRE-GENESIS::v1",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T02:55:00+02:00",
+
+    "inheritance": {
+      "from_k4_plaintext": "INTHECENTEROFTHISCITYEASTNORTHEASTNEARROTESRATHAUSCHIMESFROMTHEBERLINCLOCKAREHEARDAC",
+      "from_k4_coordinates_deg": "52.486508N 13.370654E",
+      "from_k4_coordinates_rad": "0.9160624rad 0.2333619rad",
+      "from_k4_quantum_marker": "VK365::QMARK::KRYPTOS-K4-BERLIN",
+      "from_k4_final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615"
+    },
+
+    "genesis_requirements": {
+      "master_seed_required": true,
+      "canonical_keyset_required": true,
+      "permutation_genesis_required": true,
+      "audit_initialization_required": true
+    },
+
+    "k5_domain_state": {
+      "domain": "K5-PRE-GENESIS",
+      "state": "UNSEEDED",
+      "allowed_operations": [
+        "DEFINE_MASTER_SEED",
+        "GENERATE_CANONICAL_KEYSET",
+        "ESTABLISH_PERMUTATION_GENESIS",
+        "INITIALIZE_SOVEREIGN_AUDIT"
+      ],
+      "forbidden_operations": [
+        "K5_ENCRYPTION",
+        "K5_DECRYPTION",
+        "K5_CANONICAL_OUTPUT"
+      ]
+    },
+
+    "k5_constraints": {
+      "requires_k4_closure": true,
+      "requires_k4_ledger_entry": true,
+      "requires_k4_transition_manifest": true,
+      "requires_vk365_marker_binding": true
+    },
+
+    "pre_genesis_hash": {
+      "method": "SHA-256",
+      "inputs": {
+        "module_id": "VK365::K5::PRE-GENESIS::v1",
+        "k4_final_chain_digest": "d4c3b2a1f0e9d8c7b6a594837261504f3e2d1c0b9a8f7e6d5c4b3a2918171615",
+        "timestamp": "2026-09-13T02:55:00+02:00"
+      },
+      "digest": "8a7c6d5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "sovereign_clause": {
+      "meaning": "K5 domen je otvoren, ali još nije inicijalizovan. Ovo je nulti sloj K5 arhitekture.",
+      "transition": "Sljedeći korak je K5 MASTER-SEED RITUAL.",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    }
+  }
+}
