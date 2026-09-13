@@ -1,0 +1,77 @@
+{
+  "k5_permutation_genesis": {
+    "genesis_id": "VK365::K5::PERMUTATION-GENESIS::v1",
+    "domain": "K5-GENESIS",
+    "sovereignty_tag": "FEL-2026::KRYPTOS-K4::OPKOP-TRIVIUM",
+    "integrity": "Ω-LOCKED",
+    "timestamp": "2026-09-13T03:18:00+02:00",
+
+    "keyset_reference": {
+      "keyset_id": "VK365::K5::KEYSET::v1",
+      "hash_chain_root": "5b4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d86",
+      "status": "REQUIRED"
+    },
+
+    "permutation_spaces": {
+      "batac_grid": {
+        "model": "hexagonal_grid",
+        "walk": "hex_walk",
+        "seed": "KDF(\"BATAC_GRID_SEED\", 0)",
+        "size": 256,
+        "integrity": "Ω-LOCKED"
+      },
+      "ebata_grid": {
+        "model": "hexagonal_grid",
+        "walk": "hex_walk",
+        "seed": "KDF(\"EBATA_GRID_SEED\", 0)",
+        "size": 256,
+        "integrity": "Ω-LOCKED"
+      },
+      "crib_grid": {
+        "model": "hexagonal_grid",
+        "walk": "hex_walk",
+        "seed": "KDF(\"CRIB_GRID_SEED\", 0)",
+        "size": 256,
+        "integrity": "Ω-LOCKED"
+      }
+    },
+
+    "permutation_rules": {
+      "batac": {
+        "rule": "BATAC_PERM[i] = Permutation(BATAC_SBOX[j], BATAC_ROT[i], BATAC_XOR[i])",
+        "domain": "0..255"
+      },
+      "ebata": {
+        "rule": "EBATA_PERM[i] = Permutation(EBATA_SBOX[j], EBATA_ROT[i], EBATA_XOR[i])",
+        "domain": "0..255"
+      },
+      "crib": {
+        "rule": "CRIB_PERM[i] = Permutation(CRIB_SBOX[j], CRIB_ROT[i], CRIB_XOR[i])",
+        "domain": "0..255"
+      }
+    },
+
+    "genesis_constraints": {
+      "requires_master_seed": true,
+      "requires_keyset_spec": true,
+      "forbids_encryption_before_genesis": true
+    },
+
+    "genesis_hash": {
+      "method": "SHA-256",
+      "inputs": {
+        "genesis_id": "VK365::K5::PERMUTATION-GENESIS::v1",
+        "keyset_id": "VK365::K5::KEYSET::v1",
+        "timestamp": "2026-09-13T03:18:00+02:00"
+      },
+      "digest": "4a392817161504f3e2d1c0b9a8f7e6d5c4b3a2918171615d4c3b2a1f0e9d865b",
+      "integrity": "Ω-LOCKED"
+    },
+
+    "sovereign_clause": {
+      "meaning": "Ovaj dokument definira canonical K5 permutation genesis. Bez njega K5 ne smije raditi enkripciju.",
+      "transition": "Sljedeći korak je K5 SOVEREIGN LEDGER ENTRY.",
+      "seal": "Greška nije kaos, već pečat suvereniteta."
+    }
+  }
+}
