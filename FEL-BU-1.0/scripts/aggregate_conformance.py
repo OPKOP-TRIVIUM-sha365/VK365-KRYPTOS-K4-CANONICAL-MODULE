@@ -1,113 +1,133 @@
 #!/usr/bin/env python3
 import argparse
+import hashlib
 import json
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 
 def read_exit_code(path: Path):
     if not path.exists():
         return None
     try:
-        return int(path.read_text(encoding="utf-8", errors="replace").strip())
+        value = path.read_text(encoding="utf-8", errors="replace").strip()
+        if not value:
+            return None
+        return int(value)
     except ValueError:
         return None
 
 
-def normalize_status(exit_code):
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def normalize_exit_status(exit_code):
     if exit_code is None:
         return "NOT_RUN"
     return "PASS" if exit_code == 0 else "FAIL"
 
 
-def collect_result(name, command, log_path, exit_code, root):
-    relative_log = log_path.relative_to(root) if log_path.is_absolute() else log_path
+def collect_component(name, run_dir: Path, command: str):
+    log_path = run_dir / f"{name}.log"
+    exit_path = run_dir / f"{name}.exit"
+    exit_code = read_exit_code(exit_path)
+    log_hash = sha256_file(log_path) if log_path.exists() else None
     return {
         "name": name,
-        "status": normalize_status(exit_code),
+        "status": normalize_exit_status(exit_code),
         "exit_code": exit_code,
         "command": command,
-        "log": str(relative_log),
+        "log": str(log_path.name),
+        "sha256_log": log_hash,
     }
 
 
-def build_summary(report):
-    overall = report["status"]
+def summary_text(report):
     lines = []
     lines.append("# FEL-BU-1.0 Audit Summary")
     lines.append("")
-    lines.append(f"Overall status: {overall}")
+    lines.append(f"Run ID: {report.get('run_id', 'unknown')}")
+    lines.append(f"Overall status: {report['status']}")
     lines.append("")
     lines.append("## Component status")
-    for lang in ("python", "rust", "c"):
-        item = report[lang]
-        lines.append(f"- {lang}: {item['status']} (exit_code={item.get('exit_code')})")
+    for name in ("python", "rust", "c"):
+        comp = report[name]
+        lines.append(f"- {name}: {comp['status']} (exit_code={comp.get('exit_code')})")
     lines.append("")
     lines.append("## Notes")
-    lines.append("- This summary is generated after executing the local audit suite.")
-    lines.append("- PASS means all KAT vectors, CMAP RGB/HEX checks, and negative tests passed.")
-    lines.append("- FAIL means at least one KAT vector, CMAP value, or validation path failed.")
+    lines.append("- This summary reflects only the active run directory and does not combine older results.")
+    lines.append("- PASS requires an actual execution and exit code 0 for all three implementations.")
     return "\n".join(lines) + "\n"
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
+    parser.add_argument("--run-dir", required=True)
     parser.add_argument("--report", required=True)
     parser.add_argument("--summary", required=True)
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
+    run_dir = Path(args.run_dir).resolve()
     report_path = Path(args.report).resolve()
     summary_path = Path(args.summary).resolve()
 
-    report_dir = report_path.parent
-    report_dir.mkdir(parents=True, exist_ok=True)
+    metadata_path = run_dir / "metadata.json"
+    metadata = {}
+    if metadata_path.exists():
+        try:
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        except Exception:
+            metadata = {}
 
-    python_exit = read_exit_code(root / "reports" / "python.exit")
-    rust_exit = read_exit_code(root / "reports" / "rust.exit")
-    c_exit = read_exit_code(root / "reports" / "c.exit")
-
-    python_cmd = "cd python && python -m unittest -v test_berlin_uhr.py"
+    python_cmd = "cd python && python3 -m unittest -v test_berlin_uhr.py"
     rust_cmd = "cd rust && cargo test -- --nocapture"
     c_cmd = "cd c && gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 bu_kat_tests.c -o bu_kat_tests && ./bu_kat_tests"
 
     results = {
-        "python": collect_result("python", python_cmd, root / "reports" / "python.log", python_exit, root),
-        "rust": collect_result("rust", rust_cmd, root / "reports" / "rust.log", rust_exit, root),
-        "c": collect_result("c", c_cmd, root / "reports" / "c.log", c_exit, root),
+        "python": collect_component("python", run_dir, python_cmd),
+        "rust": collect_component("rust", run_dir, rust_cmd),
+        "c": collect_component("c", run_dir, c_cmd),
     }
 
-    if any(item["status"] == "FAIL" for item in results.values()):
+    statuses = [v["status"] for v in results.values()]
+    if any(v == "FAIL" for v in statuses):
         overall_status = "FAIL"
-    elif any(item["status"] == "NOT_RUN" for item in results.values()):
-        overall_status = "PENDING_LOCAL_EXECUTION"
-    else:
+    elif all(v == "PASS" for v in statuses):
         overall_status = "PASS"
+    else:
+        overall_status = "PENDING_LOCAL_EXECUTION"
 
-    report = {
+    payload = {
         "profile": "FEL-BU-1.0",
         "suite": "BU-KAT-001",
+        "run_id": metadata.get("run_id", run_dir.name),
         "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "status": overall_status,
-        "execution_policy": "No final verdict is assigned until code is run in a local runtime or CI environment.",
         "python": results["python"],
         "rust": results["rust"],
         "c": results["c"],
-        "result_policy": {
-            "pass": "All KAT vectors, CMAP RGB/HEX values, and negative tests pass in all implementations.",
-            "fail": "Any mismatch, invalid accepted value, rejected valid input, or wrong CMAP derivation counts as FAIL.",
-            "final_status": "SET_ONLY_AFTER_LOCAL_OR_CI_EXECUTION"
-        }
+        "notes": [
+            "This report reflects only the active run directory and does not include stale results from other runs.",
+            "PASS requires an actual execution and exit code 0 for each component.",
+            "FAIL requires a non-zero exit code or a rejected validation condition.",
+            "A missing exit code or missing log is treated as NOT_RUN."
+        ],
     }
 
-    report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    summary_path.write_text(build_summary(report), encoding="utf-8")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    summary_path.write_text(summary_text(payload), encoding="utf-8")
 
-    print(json.dumps(report, indent=2))
-    print("")
-    print(f"Summary written to: {summary_path}")
+    print(json.dumps(payload, indent=2))
+    return 0 if overall_status == "PASS" else 1 if overall_status == "FAIL" else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
