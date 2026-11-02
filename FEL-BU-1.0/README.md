@@ -4,10 +4,10 @@ Canonical UTC Berlin-Uhr Projection
 
 ## Status model
 
-This package distinguishes between implementation state and execution evidence. The specification and canonical KAT values remain normative and unchanged.
+This package distinguishes between implementation state and execution evidence.
 
 - SPECIFICATION_DEFINED: the profile, formulas, and canonical KAT corpus are present and stable.
-- IMPLEMENTATION_PRESENT: Python, Rust and C source files exist.
+- IMPLEMENTATION_PRESENT: Python, Rust and C sources exist.
 - TESTS_PRESENT: positive and negative tests are present.
 - TESTS_EXECUTED: a runtime command actually ran and produced evidence.
 - CROSS_PLATFORM_CONFORMANCE_VERIFIED: Python, Rust and C all executed successfully against the same corpus.
@@ -16,8 +16,8 @@ This package distinguishes between implementation state and execution evidence. 
 
 Important:
 - PASS, VERIFIED, and CERTIFIED claims require actual execution evidence.
-- If execution evidence is absent, the status must remain NOT_RUN or PENDING_LOCAL_EXECUTION.
-- This repository contains implementation scaffolding and tests, but no claim of verified runtime pass is made here without logs and exit-code evidence.
+- If evidence is absent, the status must remain NOT_RUN or PENDING_EXECUTION.
+- This repository contains implementation scaffolding and tests, but it does not claim verified runtime PASS without logs and exit-code evidence.
 
 ## Normative profile
 
@@ -83,10 +83,10 @@ make -C FEL-BU-1.0 audit
 
 - Absence of actual logs or exit codes means NOT_RUN, not PASS.
 - Any non-zero exit code means FAIL.
-- A PASS result requires each implementation to be executed and return exit code 0.
+- A PASS result requires each implementation to be executed and to return exit code 0.
 - A stale run result is not accepted as evidence of the current run.
 - The review process distinguishes between implementation presence and runtime verification.
 
 ## Current status
 
-The implementation and tests are present, but the repository does not claim a verified runtime PASS unless a real log and exit-code record exists in an active run directory.
+The implementation and tests are present in the repository, but runtime verification is not claimed here unless a real log and exit-code record exists in the active run directory.

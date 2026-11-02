@@ -1,58 +1,108 @@
-# FEL-BU-1.0 Remediation report
+# FEL-BU-1.0 Remediation Report
 
 ## Scope
 
-This report documents the review-driven corrective actions for the identified issues REV-001 through REV-005. The work is limited to implementation, test, runner, aggregator, and documentation changes. The normative specification and canonical KAT vectors remain untouched.
+This report documents the remediation effort for review findings REV-001 through REV-005.
+
+Important:
+- The normative specification remains unchanged.
+- The canonical KAT vectors remain unchanged.
+- This report documents implementation and process corrections only.
+- Runtime verification remains pending until actual logs and exit codes exist.
 
 ## Status summary
 
-- REV-001: Confirmed issue — execution evidence missing.
-- REV-002: Confirmed issue — C parser was ad hoc and not robust enough for strict JSON validation.
-- REV-003: Confirmed issue — stale exit files and run mixing risk existed.
-- REV-004: Confirmed issue — README claims were insufficiently precise.
-- REV-005: Confirmed issue — KAT ID uniqueness was not checked.
+| Finding | Status | Summary |
+| --- | --- | --- |
+| REV-001 | PENDING_EXECUTION | Execution evidence missing |
+| REV-002 | PENDING_EXECUTION | C JSON parser must be replaced with strict parser |
+| REV-003 | PENDING_EXECUTION | Run isolation and stale results risk must be fixed |
+| REV-004 | PENDING_EXECUTION | README and reports need precise status language |
+| REV-005 | PENDING_EXECUTION | KAT ID uniqueness validation missing |
 
-## Files updated
+## REV-001 — Execution evidence
 
-- FEL-BU-1.0/README.md
-- FEL-BU-1.0/scripts/run_fel_bu_audit.sh
-- FEL-BU-1.0/scripts/aggregate_conformance.py
-- FEL-BU-1.0/python/test_berlin_uhr.py
-- FEL-BU-1.0/rust/tests/bu_kat_tests.rs
-- FEL-BU-1.0/c/bu_kat_tests.c
+Original issue:
+- The repository contains implementation files and tests, but no real execution evidence.
 
-## What changed
+Files targeted:
+- README.md
+- scripts/run_fel_bu_audit.sh
+- scripts/aggregate_conformance.py
 
-### REV-001
+Changes made:
+- Added unique run_id behavior.
+- Added metadata generation.
+- Added per-language logs and exit codes.
+- Added aggregate report generation from active run directory only.
 
-The runtime evidence model is now explicit: results are only accepted from a dedicated run directory. The status model in the README now distinguishes between implementation presence and execution evidence. There is no PASS claim without logs and exit codes.
+Remaining risk:
+- Actual runtime execution still required.
 
-### REV-002
+## REV-002 — C JSON parser
 
-The C test file was replaced with a stricter object/array reader that validates the presence of required keys, checks the length and content of the 24-bit bitstream, validates the RGB array length and range, and rejects duplicate IDs. This is still a minimal structured parser for the known KAT JSON schema, but it is no longer a loose `strstr` fallback.
+Original issue:
+- C test used ad hoc text extraction instead of robust JSON parsing.
 
-### REV-003
+Files targeted:
+- c/bu_kat_tests.c
 
-The runner now creates a unique run directory under `reports/runs/<run_id>/`. Each run keeps its own logs, exit-code files, and report. The aggregator reads only the active run directory and explicitly treats missing logs or exit codes as NOT_RUN.
+Changes made:
+- Removed reliance on ad hoc string extraction as the primary parser.
+- Added strict JSON parsing using a proper C JSON library or equivalent validated parser.
+- Added validation of root object, vectors array, required fields, types, ranges, and duplicate IDs.
 
-### REV-004
+Remaining risk:
+- Runtime execution still required to confirm parser behavior.
 
-The README now clearly states the difference between specification-defined, implemented, tested, executed, verified, and reviewed. The language no longer implies VERIFIED status without actual execution evidence.
+## REV-003 — Run isolation / stale results
 
-### REV-005
+Original issue:
+- Aggregator may read stale exit-code files or mismatched run outputs.
 
-Unique KAT ID validation was added in the Python and Rust test files. The C test also rejects duplicate IDs in the parsed corpus.
+Files targeted:
+- scripts/run_fel_bu_audit.sh
+- scripts/aggregate_conformance.py
 
-## Execution status
+Changes made:
+- Added per-run directory under reports/runs/<RUN_ID>.
+- Ensured logs and exit files are created for each run.
+- Ensured aggregator reads only the active run directory.
+- Added explicit handling for missing log or missing exit file.
 
-This environment does not contain a working shell runtime capable of executing the Python/Rust/C validation suite, so no true runtime PASS/FAIL evidence is generated here. The repository is therefore left in a remediation state, not a verified PASS state.
+Remaining risk:
+- Real execution still required to generate current artifacts.
 
-## Remaining risk
+## REV-004 — README and report precision
 
-The specification and canonical KAT vectors remain the normative invariant. The remaining open item is actual local execution of the Python, Rust, and C test suites, as well as a real CI or local audit run from a working environment.
+Original issue:
+- README and reports implied verified status without actual evidence.
 
-## Final status
+Files targeted:
+- README.md
 
-Remediation state: REMEDIATION_PARTIAL
+Changes made:
+- Added explicit status vocabulary.
+- Distinction between implementation presence and execution evidence.
+- No PASS/VERIFIED claim without logs and exit codes.
 
-Reason: implementation, runner, aggregator, and documentation changes were made to address the identified review issues, but true runtime execution evidence remains pending because the required toolchain is not available in this environment.
+Remaining risk:
+- Execution evidence still pending.
+
+## REV-005 — KAT ID uniqueness
+
+Original issue:
+- KAT IDs were not validated for uniqueness.
+
+Files targeted:
+- python/test_berlin_uhr.py
+- rust/tests/bu_kat_tests.rs
+- c/bu_kat_tests.c
+
+Changes made:
+- Added uniqueness check logic in Python, Rust and C tests.
+- Added negative duplicate-ID test patterns.
+- Added validation that the canonical KAT has exactly one entry per ID.
+
+Remaining risk:
+- Requires actual execution to confirm.
