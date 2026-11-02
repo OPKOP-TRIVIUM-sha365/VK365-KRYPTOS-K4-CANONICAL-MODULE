@@ -1,0 +1,38 @@
+name: FEL-BU-1.0 Audit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: Full conformance audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Run full audit bundle
+        run: |
+          bash FEL-BU-1.0/scripts/run_fel_bu_audit.sh
+
+      - name: Upload audit logs and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fel-bu-audit-logs
+          path: |
+            FEL-BU-1.0/reports/*.log
+            FEL-BU-1.0/reports/conformance_report.json
+            FEL-BU-1.0/reports/audit_summary.md

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+target/
+*.exe
+*.out
+reports/*.log
+reports/*.exit
+artifacts/*.tmp

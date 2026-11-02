@@ -1,0 +1,23 @@
+{
+  "profile": "FEL-BU-1.0",
+  "report": "BU-KAT-001",
+  "status": "PENDING_LOCAL_EXECUTION",
+  "execution_policy": "No PASS/FAIL verdict is assigned until code is run in a local runtime environment.",
+  "python": {
+    "status": "NOT_RUN",
+    "command": "cd FEL-BU-1.0/python && python -m unittest -v test_berlin_uhr.py"
+  },
+  "rust": {
+    "status": "NOT_RUN",
+    "command": "cd FEL-BU-1.0/rust && cargo test -- --nocapture"
+  },
+  "c": {
+    "status": "NOT_RUN",
+    "command": "cd FEL-BU-1.0/c && gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 bu_kat_tests.c -o bu_kat_tests && ./bu_kat_tests"
+  },
+  "result_policy": {
+    "pass": "All KAT vectors, CMAP RGB/HEX values, and negative tests pass in all implementations.",
+    "fail": "Any mismatch, invalid accepted value, rejected valid input, or wrong CMAP derivation counts as FAIL.",
+    "final_status": "SET_ONLY_AFTER_LOCAL_EXECUTION"
+  }
+}

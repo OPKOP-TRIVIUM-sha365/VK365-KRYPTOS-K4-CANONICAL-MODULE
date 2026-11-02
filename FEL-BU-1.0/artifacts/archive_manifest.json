@@ -1,0 +1,10 @@
+{
+  "profile": "FEL-BU-1.0",
+  "archive_name": "FEL-BU-1.0-final.zip",
+  "generated_at_utc": "PENDING_LOCAL_EXECUTION",
+  "status": "PENDING_LOCAL_EXECUTION",
+  "files": [],
+  "total_files": 0,
+  "total_size_bytes": 0,
+  "note": "Manifest is generated only after real local/CI execution. This is a placeholder until archive creation is performed."
+}
