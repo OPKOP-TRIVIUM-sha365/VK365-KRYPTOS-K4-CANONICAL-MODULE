@@ -11,9 +11,9 @@ struct Vector {
 
 fn parse_timestamp(s: &str) -> Result<(u32, u32, u32, u32, u32, u32), String> {
     let b = s.as_bytes();
-    if b.len() != 20 || b[4] != b'-' || b[7] != b'-' || b[10] != b'T'
+    if b.len() != 20 || !s.is_ascii() || b[4] != b'-' || b[7] != b'-' || b[10] != b'T'
         || b[13] != b':' || b[16] != b':' || b[19] != b'Z' {
-        return Err("timestamp must be exact YYYY-MM-DDTHH:MM:SSZ ASCII".into());
+        return Err("timestamp must be exact ASCII YYYY-MM-DDTHH:MM:SSZ".into());
     }
     for (i, c) in b.iter().enumerate() {
         if ![4, 7, 10, 13, 16, 19].contains(&i) && !c.is_ascii_digit() {
@@ -55,21 +55,23 @@ fn cmap(bits: &str) -> Result<([u8; 3], String), String> {
     Ok((rgb, hex))
 }
 
-fn read_vectors(path: &str) -> Vec<Vector> {
-    let data = fs::read_to_string(path).expect("cannot read shared KAT fixture");
-    data.lines().filter(|line| !line.is_empty() && !line.starts_with('#')).map(|line| {
-        let fields: Vec<&str> = line.split('\t').collect();
-        assert_eq!(fields.len(), 5, "malformed TSV row: {line}");
-        let channels: Vec<u8> = fields[3].split(',').map(|x| x.parse().unwrap()).collect();
-        assert_eq!(channels.len(), 3);
-        Vector { id: fields[0].into(), timestamp: fields[1].into(), bits: fields[2].into(),
-            rgb: [channels[0], channels[1], channels[2]], hex: fields[4].into() }
-    }).collect()
+fn parse_row(line: &str) -> Result<Vector, String> {
+    let fields: Vec<&str> = line.split('\t').collect();
+    if fields.len() != 5 { return Err("row must contain exactly five TAB-separated fields".into()); }
+    let channels: Vec<u8> = fields[3].split(',').map(|x| x.parse().map_err(|_| "invalid RGB integer".to_string())).collect::<Result<_, _>>()?;
+    if channels.len() != 3 { return Err("RGB requires three channels".into()); }
+    Ok(Vector { id: fields[0].into(), timestamp: fields[1].into(), bits: fields[2].into(),
+        rgb: [channels[0], channels[1], channels[2]], hex: fields[4].into() })
+}
+
+fn read_vectors(path: &str) -> Result<Vec<Vector>, String> {
+    let data = fs::read_to_string(path).map_err(|e| e.to_string())?;
+    data.lines().filter(|line| !line.is_empty() && !line.starts_with('#')).map(parse_row).collect()
 }
 
 #[test]
 fn kat_001_all_five_shared_vectors() {
-    let vectors = read_vectors("fixtures/bu_kat_001.tsv");
+    let vectors = read_vectors("fixtures/bu_kat_001.tsv").unwrap();
     assert_eq!(vectors.len(), 5);
     for vector in vectors {
         let bits = bu(&vector.timestamp).unwrap();
@@ -81,9 +83,10 @@ fn kat_001_all_five_shared_vectors() {
 }
 
 #[test]
-fn rejects_invalid_timestamp_forms_and_accepts_leap_day() {
+fn timestamp_rejects_bad_calendar_time_format_and_non_ascii() {
     for timestamp in ["2026-2-01T00:00:00Z", "2026-11-01T24:00:00Z", "2025-02-29T00:00:00Z",
-        "2026-11-01T00:60:00Z", "2026-11-01T00:00:60Z", "2026-11-01T00:00:00+00:00", "0000-01-01T00:00:00Z"] {
+        "2026-04-31T00:00:00Z", "2026-11-01T00:60:00Z", "2026-11-01T00:00:60Z",
+        "2026-11-01T00:00:00+00:00", "0000-01-01T00:00:00Z", "２０２６-11-01T00:00:00Z"] {
         assert!(parse_timestamp(timestamp).is_err(), "accepted {timestamp}");
     }
     assert!(parse_timestamp("2000-02-29T12:34:56Z").is_ok());
@@ -91,7 +94,9 @@ fn rejects_invalid_timestamp_forms_and_accepts_leap_day() {
 }
 
 #[test]
-fn rejects_invalid_bitstrings() {
+fn rejects_invalid_bitstrings_and_malformed_fixture_rows() {
     assert!(cmap("000").is_err());
     assert!(cmap("00000000000000000000000x").is_err());
+    assert!(parse_row("A 2026-11-01T00:00:00Z 000000000000000000000000 0,0,0 000000").is_err());
+    assert!(parse_row("A\t2026-11-01T00:00:00Z\t000000000000000000000000\t0,0\t000000").is_err());
 }
