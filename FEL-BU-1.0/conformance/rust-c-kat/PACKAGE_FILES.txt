@@ -1,0 +1,9 @@
+# Rust/C standalone KAT package files
+FEL-BU-1.0/conformance/rust-c-kat/README.md
+FEL-BU-1.0/conformance/rust-c-kat/fixtures/bu_kat_001.tsv
+FEL-BU-1.0/conformance/rust-c-kat/rust/src/lib.rs
+FEL-BU-1.0/conformance/rust-c-kat/c/src/main.c
+FEL-BU-1.0/conformance/rust-c-kat/scripts/run_all.sh
+FEL-BU-1.0/conformance/rust-c-kat/scripts/aggregate.py
+
+Execution artifacts are intentionally not included. Generate logs, exit codes, and the conformance report by running scripts/run_all.sh in an environment with the required toolchains.
